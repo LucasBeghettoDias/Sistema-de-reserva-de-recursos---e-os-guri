@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de reserva de recursos</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+   <header>
+    <div class="container navPrincipal">
+        <div class="marcaSistema">
+            <div class="logoSistemas">&#128274;</div>
+            <h1>Sistema de Reserva de Recursos</h1>
+        </div>
+        <div class="acoesNav">
+            <button class="botao" onclick="abrirLogin()">Entrar</button>
+            <button class="botao botaoPrimario" onclick="rolarParaRapido()">Nova reserva</button>
+        </div>
+    </div>
+   </header>
+
+   <main class="container">
+        <section class="secaoHero">
+             <div class="cartaoHero">
+                <span class="selo">&#129513; Entidades: usuário - recurso - reserva</span>
+                <h2>Reserve recursos de forma simples e rápida</h2>
+                <p class="textoMutado">Selecione o <strong>recurso</strong>, escolha <strong>data/horário</strong> e confirme.
+                Depois acompanhe suas <strong>reservas</strong> na área do usuário.</p>
+                <form class="formRapido">
+                    <select>
+                       <option value="">- selecione o recurso -</option>
+                       <option>Laboratório 01</option>
+                       <option>Laboratório 02</option>
+                       <option>Projetor 4k</option>
+                       <option>Espaço de reuniões</option>
+                    </select>
+                    <input class="entrada" type="data" placeholder="Data">
+                    <input class="entrada" type="time" placeholder="Inicio">
+                    <input class="entrada" type="time" placeholder="Fim">
+                    <button class="botao botaoPrimario" type="submit">Reservar</button>
+                </form>
+             </div>
+
+             <div class="cartaoHero">
+                <h3>Status do sistema</h3>
+                <p class="textoMutado">
+                    Ambiente <strong>DEMO</strong>.
+                    Integração real será feita após 
+                    modelagem e API.
+                </p>
+                <ul class="textoMutado">
+                    <li>&#128272; Autenticação: planejada (sprint 4-5)</li>
+                    <li>&#128450; Persistência: JSON - SQLite - MYSQL</li>
+                    <li>&#128737; Perfis: Usuário e administrador</li>
+                </ul>
+             </div>
+        </section>
+        <section class="gradeEntidades">
+            <article class="cartao">
+                <h3>Usuário</h3>
+                <p class="textoMutado">
+                    Cadastro, login e área de usuário com histórico de reservas.
+                </p>
+            </article>
+            <article class="cartao">
+                <h3>Recurso</h3>
+                <p class="textoMutado">
+                    Catálogo administrado (salas, equipamentos). Regras de disponibilidade.
+                </p>
+            </article>
+            <article class="cartao">
+                <h3>Reserva</h3>
+                <p class="textoMutado">
+                    Criação, edição e cancelamento com validação de conflitos.
+                </p>
+            </article>
+        </section>
+        <footer>
+    <div class="container">
+        <small class="textoMutado">
+            Sprint 1 - Prototipagem de interface (HTML/CSS).
+            Próximo: modelagem e persistência
+        </small>
+    </div>
+   </footer>
+   </main>
+
+   <!-- Criação do Modal em tela -->
+    <dialog id="modalLogin">
+        <header>
+            <h3>Entrar</h3>
+            <p class="textoMutado">Protótipo visual. Implementação de autenticação nos próximos sprints.</p>
+        </header>
+        <form method="dialog">
+            <input type="email" class="entrada" placeholder="Email" required>
+            <input type="password" class="entrada" placeholder="Senha" required>
+            <div style="display: flex; gap:10px; justify-content: flex-end">
+            <button class="botao" value="Cancelar">Cancelar</button>
+            <button class="botao" value="Entrar">Entrar</button>
+        </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">
+    </div>
+</body>
+</html>
