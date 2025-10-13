@@ -226,9 +226,10 @@ dialog{
   }
 }
 
-/* SPRINT 02 | UTILITARIOS ADICIONADOS */
 
-/* Grades para os formularios das seções */
+/* SPRINT 2 - UTILITÁRIOS ADICIONADOS */
+
+/* Grades para os formulários das seções */
 .grade{
   display: grid;
   gap: 12px;
@@ -244,9 +245,7 @@ dialog{
   }
 }
 
-
 /* LISTA SIMPLES DO HISTÓRICO */
-
 .lista{
   list-style: none;
   margin: 12px 0 0;
@@ -263,12 +262,11 @@ dialog{
   padding: 12px 14px;
   border-radius: 12px;
   background: #0b1220;
-  border: 1px solid rgba(148, 163, 184, .25);
+  border: 1px solid rgba(148,163,184,.25);
   color: var(--corTexto);
 }
 
 /* TOAST */
-
 .toast{
   position: fixed;
   right: 16px;
@@ -280,12 +278,14 @@ dialog{
   border-radius: 12px;
   background: #0b1220;
   color: var(--corTexto);
-  border: 1px solid rgba(34, 211, 238, .25);
+  border: 1px solid rgba(148,163,184,.25);
   border-left: 6px solid var(--corOk);
   box-shadow: var(--sombra);
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity .25s ease, transform .25s ease, border-color .2s ease;
+  transition: opacity .25s ease, 
+              transform .25s ease, 
+              border-color .2s ease;
   pointer-events: none;
 }
 
@@ -302,31 +302,29 @@ dialog{
   border-left-color: #ef4444;
 }
 
-/* 4) Link ativo no menu (acessibilidade/UX)
-
+/* LINK ATIVO NO MENU */
 .menu a[aria-current="true"]{
   border-bottom: 2px solid currentColor;
 }
 
-/* 5) Ajustes de inputs/botões dentro das novas seções (compatível com seu tema) */
+/* AJUSTES DE INPUTS/BOTÕES DENTRO DAS NOVAS SEÇÕES */
 #secLogin input, #secPesquisa input, #secPesquisa select, #secSolicitar input{
   width: 100%;
   padding: 12px 12px;
   border-radius: 12px;
   background: #0b1220;
-  border: 1px solid rgba(148,163,184,.25);
-  color: var(--corTexto);
+  border: 1px solid rgba(148, 163, 184, .25);
+  color: car(--corTexto);
 }
 #secLogin input:focus,
 #secPesquisa input:focus,
 #secPesquisa select:focus,
 #secSolicitar input:focus{
-  outline: 2px solid var(--corMarca);
+  outline:2px solid var(--corMarca);
   border-color: transparent;
 }
 
-/* 6) Cartão das novas seções reaproveita seu .cartao
-   - Se quiser um respiro entre elas: */
+/* REAPROVEITAMENTO DO CARTÃO PARA NOVAS SEÇÕES */
 #secLogin.cartao,
 #secPesquisa.cartao,
 #secSolicitar.cartao,
@@ -334,10 +332,10 @@ dialog{
   margin-top: 18px;
 }
 
-/* 7) Botão primário já existe; aqui só garantimos consistência nas seções novas */
-#secLogin .botaoPrimario,
-#secPesquisa .botaoPrimario,
-#secSolicitar .botaoPrimario{
+/* CONSISTÊNCIA DE BOTÃO PRIMÁRIO NAS NOVAS SEÇÕES */
+#secLogin.botaoPrimario,
+#secPesquisa.botaoPrimario,
+#secSolicitar.botaoPrimario{
   display: inline-block;
   text-align: center;
 }
