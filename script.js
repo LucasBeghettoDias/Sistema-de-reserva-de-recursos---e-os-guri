@@ -193,3 +193,80 @@ formPesquisa?.addEventListener('submit', (e)=> {
     location.hash = '#secSolicitar';
     atualizarMenuAtivo();
 });
+
+//4.3 - SOLICITAR RESERVA
+
+formSolicitar?.addEventListener('submit',(e)=>{
+    e.preventDefault();
+
+    if(!usuarioAtual){
+        mostrarToast('Faça login antes de solicitar','warn');
+        location.hash = '#secLogin';
+        atualizarMenuAtivo();
+        return;
+    }
+
+    if(!ultimoFiltroPesquisa){
+        mostrarToast('pesquise a disponibilidade antes de solicitar','warn');
+        location.hash = '#secPesquisa'
+        atualizarMenuAtivo();
+        return;
+    }
+
+    const{justificativa} = dadosDoForm(formSolicitar);
+    if(!justificativa){
+        mostrarToast('descreva a justificativa','warn');
+        return;
+    }
+
+    //RN4 - Se Login contém prof aprova automaticamente a reserva
+
+    const status = usuarioAtual.professor ?'aprovada':'pendente';
+
+    const nova =  {
+        ...ultimoFiltroPesquisa,
+        justificativa,
+        status,
+        autor: usuarioAtual.login
+    }
+
+    reservas.push(nova);
+    renderItemReserva(nova);
+
+    mostrarToast(status==='aprovada' ?'reserva aprovada automaticamente':'reserva enviada para análise');
+
+    formSolicitar.reset();
+    location.hash = '#secHistorico';
+    atualizarMenuAtivo();
+})
+
+//4.4 - RENDERIZAÇÃO DO HISTÓRICO
+
+function renderItemReserva({recurso, data, hora, justificativa, status}){
+    if(!listaReservas) return;
+
+    const li = document.createElement('li');
+    const quando = new Date(`${data}T${hora}`).toLocaleString('pt-br');
+
+    li.innerHTML = `
+    <span><strong>${recurso}</strong> - ${quando}</span>
+    <span>${status==='aprovada' ? 'aprovada': status==='cancelada' ? 'cancelada' : 'pendente'}</span>`;
+
+    //clique para cancelar
+
+    li.addEventListener('click',()=>{
+        if(li.dataset.status === 'cancelada') return;
+        li.dataset.status = 'cancelada';
+        li.lastElementChild.textContent = 'cancelada';
+        mostrarToast('reserva cancelada','warn');
+    })
+
+    listaReservas.appendChild(li);
+
+}
+
+//5)AJUSTES FINAIS DE ARRANQUE
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    atualizarMenuAtivo();
+})
