@@ -227,25 +227,20 @@ dialog{
 }
 
 
-/* SPRINT 2 - UTILITÁRIOS ADICIONADOS */
+/* ================================
+   SPRINT 2 — utilitários adicionados
+   ================================ */
 
-/* Grades para os formulários das seções */
-.grade{
-  display: grid;
-  gap: 12px;
-}
-
-.grade.duas{
-  grid-template-columns: 1fr 1fr;
-}
-
+/* 1) Grades para os formulários das seções
+   - Mantém seu visual; só organiza inputs em 1x2 e empilha no mobile */
+.grade { display: grid; gap: 12px; }
+.grade.duas { grid-template-columns: 1fr 1fr; }
 @media (max-width: 780px){
-  .grade.duas{
-    grid-template-columns: 1fr;
-  }
+  .grade.duas { grid-template-columns: 1fr; }
 }
 
-/* LISTA SIMPLES DO HISTÓRICO */
+/* 2) Lista simples do Histórico (sem quebrar sua paleta)
+   - Usamos na <ul id="listaReservas">  */
 .lista{
   list-style: none;
   margin: 12px 0 0;
@@ -253,7 +248,6 @@ dialog{
   display: grid;
   gap: 10px;
 }
-
 .lista li{
   display: flex;
   justify-content: space-between;
@@ -261,12 +255,13 @@ dialog{
   gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: #0b1220;
+  background: #0b1220; /* combina com seu tema */
   border: 1px solid rgba(148,163,184,.25);
   color: var(--corTexto);
 }
 
-/* TOAST */
+/* 3) Toast (feedback não bloqueante e acessível)
+   - Reaproveita suas cores e sombras */
 .toast{
   position: fixed;
   right: 16px;
@@ -279,52 +274,43 @@ dialog{
   background: #0b1220;
   color: var(--corTexto);
   border: 1px solid rgba(148,163,184,.25);
-  border-left: 6px solid var(--corOk);
+  border-left: 6px solid var(--corOk);       /* ok por padrão */
   box-shadow: var(--sombra);
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity .25s ease, 
-              transform .25s ease, 
-              border-color .2s ease;
-  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, border-color .2s ease;
+  pointer-events: none; /* não atrapalha cliques na página */
 }
+.toast.visivel{ opacity: 1; transform: translateY(0); }
+/* variações por tipo (usadas via JS): */
+.toast.warn{ border-left-color: #f59e0b; }   /* âmbar/aviso */
+.toast.err{  border-left-color: #ef4444; }   /* vermelho/erro */
 
-.toast.visivel{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.toast.warn{
-  border-left-color: #f59e0b;
-}
-
-.toast.err{
-  border-left-color: #ef4444;
-}
-
-/* LINK ATIVO NO MENU */
+/* 4) Link ativo no menu (acessibilidade/UX)
+   - Só destaca se você usar <a href="#..."> no header e setar aria-current */
 .menu a[aria-current="true"]{
   border-bottom: 2px solid currentColor;
 }
 
-/* AJUSTES DE INPUTS/BOTÕES DENTRO DAS NOVAS SEÇÕES */
+/* 5) Ajustes de inputs/botões dentro das novas seções (compatível com seu tema) */
 #secLogin input, #secPesquisa input, #secPesquisa select, #secSolicitar input{
   width: 100%;
   padding: 12px 12px;
   border-radius: 12px;
   background: #0b1220;
-  border: 1px solid rgba(148, 163, 184, .25);
-  color: car(--corTexto);
+  border: 1px solid rgba(148,163,184,.25);
+  color: var(--corTexto);
 }
 #secLogin input:focus,
 #secPesquisa input:focus,
 #secPesquisa select:focus,
 #secSolicitar input:focus{
-  outline:2px solid var(--corMarca);
+  outline: 2px solid var(--corMarca);
   border-color: transparent;
 }
 
-/* REAPROVEITAMENTO DO CARTÃO PARA NOVAS SEÇÕES */
+/* 6) Cartão das novas seções reaproveita seu .cartao
+   - Se quiser um respiro entre elas: */
 #secLogin.cartao,
 #secPesquisa.cartao,
 #secSolicitar.cartao,
@@ -332,10 +318,10 @@ dialog{
   margin-top: 18px;
 }
 
-/* CONSISTÊNCIA DE BOTÃO PRIMÁRIO NAS NOVAS SEÇÕES */
-#secLogin.botaoPrimario,
-#secPesquisa.botaoPrimario,
-#secSolicitar.botaoPrimario{
+/* 7) Botão primário já existe; aqui só garantimos consistência nas seções novas */
+#secLogin .botaoPrimario,
+#secPesquisa .botaoPrimario,
+#secSolicitar .botaoPrimario{
   display: inline-block;
   text-align: center;
 }
