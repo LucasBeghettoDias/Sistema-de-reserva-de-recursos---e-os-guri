@@ -325,3 +325,34 @@ dialog{
   display: inline-block;
   text-align: center;
 }
+
+/* sprint 3: badges de refinamento no histórico */
+
+.badge {
+  display: inline-block;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: .9rem;
+  border: 1px solid rgba(148, 163, 184, .25);
+  background: #0b1220;
+  color: var(--corTexto);                                                                                                                        
+}
+
+.badge.ok {
+  border-color: rgba(34, 197, 94, .5);
+}
+
+.border.warn {
+  border-color: rgba(245, 158, 11, .5);
+}
+
+.badge.err {
+  border-color: rgba(239, 68, 68, .5);
+}
+
+.lista li[aria-disable="true"] {
+   cursor: default;
+   opacity: .7;
+}
