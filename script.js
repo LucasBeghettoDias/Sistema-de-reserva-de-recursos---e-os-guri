@@ -191,6 +191,39 @@ function hConflito({recursoId, data, horaInicio, horaFim}){
     return rxistentes.some(r=>!(r.horaFim<=horaInicio || r.horaInicio>=horaFim))
 }
 
+//Render a partir do banco 
+
+function renderItemReservaPersistida(r, recursosMap = null){
+    if(listaReservas) return;
+    const recursos = recursosMap || Object.fromEntries(repo.get(DB_KEYS.recursos).map(rr =>[rr.id,rr.nome]));
+    const quando = `${r.data.split('-').reverse().join('/')} - ${r.horaInicio} - ${r.horaFim}`;
+    const li = document.createElement('li');
+
+    const simbolo = r.status === 'aprovada' ? 'ticado':r.status === 'cancelada' ? 'xis':'ampulheta';
+    li.innerHTML = `
+    <span><strong>${recursos[r.recurso.id] || r.recursoId}</strong> - ${quando} </span>
+    <span>${simbolo} ${r.status.chatAt(0).toUpperCase() + r.status.slice(1)}</span>`;
+
+    if(r.status === 'cancelada'){
+        li.setAttribute('aria-disabled','true');
+    }
+
+    //cancelamento
+
+    li.addEventListener('click', ()=>{
+        if(r.status === 'cancelada') return;
+        r.status === 'cancelada';
+
+        repo.updateByid(DB_KEYS.reservas,r.id,()=>r);
+
+        li.lastElementChild.textContent = 'xis cancelada';
+        li.setAttribute('aria-disabled','true');
+        mostrarToast('reserva cancelada','warn');
+    })
+
+    listaReservas.appendChild(li);
+}
+
 //4.1 - LOGIN
 //Valida credenciais simples e define perfil simulado
 formLogin?.addEventListener('submit',(e)=>{
@@ -228,12 +261,14 @@ formPesquisa?.addEventListener('submit',(e)=>{
         return;
     }
 
-    ultimoFiltroPesquisa = {recurso, data, hora};
+    ultimoFiltroPesquisa = {recurso: Number(recurso), data, hora}; //sprint 3
     const quando = new Date(`${data}T${hora}`).toLocaleString('pt-br');
     mostrarToast(`Disponível: ${recurso} em ${quando}`);
     location.hash = '#secSolicitar';
     atualizarMenuAtivo();
 });
+
+
 
 //4.3 - SOLICITAR RESERVA
 //aplica RN simulada e registra no histórico
@@ -260,15 +295,33 @@ formSolicitar?.addEventListener('submit',(e)=>{
         return;
     }
 
+    //sprint 3
+    const recursoId = Number(ultimoFiltroPesquisa.recurso);
+    const data = ultimoFiltroPesquisa.data;
+    const horaInicio = ultimoFiltroPesquisa.Hora;
+    const horaFim = adicionar1Hora(horaInicio);
+
+    if(hConflito({recursoId,data,horaInicio,horaFim})){
+        mostrarToast("conflito; já existe reserva neste intervalo de horário",'err');
+    }
+
+
     //RN4 - se login contém 'prof', aprova automaticamente
     const status = usuarioAtual.professor ?'aprovada':'pendente';
 
     const nova = {
-        ...ultimoFiltroPesquisa,
+        //...ultimoFiltroPesquisa,
+        id: Date.now(),
+        recursoId,
+        usuarioId: usuarioAtual.login,
         justificativa,
         status,
-        autor:usuarioAtual.login
+        //autor:usuarioAtual.login
     };
+
+    repo.push(DB_KEYS.reservas, nova);
+    renderItemReservaPersistida(nova);
+    
 
     reservas.push(nova);
     renderItemReserva(nova);
