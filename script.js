@@ -186,9 +186,9 @@ function adicionar1Hora(hhmm){
 
 // adiciona RN2 (detecção de conflitos)
 // não há conflito, quando termina antes do outro começar
-function hConflito({recursoId, data, horaInicio, horaFim}){
+function haConflito({recursoId, data, horaInicio, horaFim}){
     const existentes = repo.get(DB_KEYS.reservas).filter(r.recursoId === recursoId && r.data === data && r.status !== 'cancelada');
-    return rxistentes.some(r=>!(r.horaFim<=horaInicio || r.horaInicio>=horaFim))
+    return existentes.some(r=>!(r.horaFim<=horaInicio || r.horaInicio>=horaFim))
 }
 
 //Render a partir do banco 
@@ -260,6 +260,15 @@ formPesquisa?.addEventListener('submit',(e)=>{
         mostrarToast("Preencha recurso, data e horário","warn");
         return;
     }
+
+   const recursoId = Number(recurso);
+   const horaInicio = hora;
+   const horaFim = adicionar1Hora(horaInicio);
+
+ if(haConflito(recursoId,data,horaInicio,horaFim)){
+    mostrarToast('já existe reserva neste intervalo','warn');
+    return;
+}
 
     ultimoFiltroPesquisa = {recurso: Number(recurso), data, hora}; //sprint 3
     const quando = new Date(`${data}T${hora}`).toLocaleString('pt-br');
@@ -367,9 +376,17 @@ function renderItemReserva({recurso,data,hora,justificativa,status}){
   ------------------------------------------------
   Por quê? Garantir que link ativo apareça já carga inicial
   =================================================*/
+//document.addEventListener('DOMContentLoaded',()=>{
+    //atualizarMenuAtivo();
+//});
+
 document.addEventListener('DOMContentLoaded',()=>{
+    if(typeof seedSeNecessario === 'function') seedSeNecessario();
+
+    if(typeof normalizarReservasAntigas === 'function') normalizarReservasAntigas();
+
     atualizarMenuAtivo();
-});
+})
 
 
 

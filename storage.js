@@ -46,6 +46,51 @@ function seedSeNecessario(){
     if(!localStorage.getItem(DB_KEYS.usuarios)) repo.set(DB_KEYS.usuarios, []);
 }
 
+function normalizarReservasAntigas(){
+    const arr = repo.get(DB_KEYS.reservas);
+    if(!Array.isArray(arr)) return;
+
+    let mudou = false;
+
+    const pad = (hhmm) => {
+        if (!hhmm || typeof hhmm !== 'string') return hhmm;
+        const [h = '0', m = '0'] = hhmm.split(':');
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')};`
+    };
+
+    arr.forEach(res=>{
+        if(r.recursos && r.recursoId){
+            r.recursoId = Number(r.recursos);
+            delete r.recursos;
+            mudou = true
+        }
+
+        if(typeof r.recursoId === 'string'){
+            r.recursoId = Number(r.recursoId);
+            mudou = true;
+        }
+
+        const hi = pad(r.horaInicio);
+        const hf = pad(r.horaFim);
+
+        if(hi !==r.horaInicio){
+            r.horaInicio = hi;
+            mudou = true;
+        }
+
+        if(!r.status){
+            r.status = 'pendente'
+            mdou = true;
+        }
+    
+    });
+
+    if(mudou){
+        repo.set(DB_KEYS.reservas,arr);
+    }
+
+    }
+
 //nome do recurso
 
 function mapRecursos(){
