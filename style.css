@@ -1,228 +1,242 @@
-:root{
-  --corFundo: #0f172a;     /* slate-900 */
-  --corPainel: #111827;    /* gray-900 */
-  --corSuave: #94a3b8;     /* slate-400 */
-  --corTexto: #e5e7eb;     /* gray-200 */
-  --corMarca: #22d3ee;     /* cyan-400 */
-  --corRealce: #a78bfa;    /* violet-400 */
-  --corOk: #34d399;        /* green-400 */
-  --sombra: 0 10px 30px rgba(0,0,0,.35);
+:root {
+  --corFundo: #0f172a;
+  /* slate-900 */
+  --corPainel: #111827;
+  /* gray-900 */
+  --corSuave: #94a3b8;
+  /* slate-400 */
+  --corTexto: #e5e7eb;
+  /* gray-200 */
+  --corMarca: #22d3ee;
+  /* cyan-400 */
+  --corRealce: #a78bfa;
+  /* violet-400 */
+  --corOk: #34d399;
+  /* green-400 */
+  --sombra: 0 10px 30px rgba(0, 0, 0, .35);
   --raio: 18px;
 }
 
-*{ 
+* {
   box-sizing: border-box;
- }
-
-html, body{ 
-  height: 100%; 
 }
 
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   background:
-    radial-gradient(1200px 600px at 20% -10%, rgba(34,211,238,.12), transparent),
-    radial-gradient(1200px 600px at 120% 10%, rgba(167,139,250,.12), transparent),
+    radial-gradient(1200px 600px at 20% -10%, rgba(34, 211, 238, .12), transparent),
+    radial-gradient(1200px 600px at 120% 10%, rgba(167, 139, 250, .12), transparent),
     var(--corFundo);
   color: var(--corTexto);
   line-height: 1.6;
 }
 
-a{ 
-  color: inherit; 
-  text-decoration: none; 
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.container{ 
-  max-width: 1100px; 
-  margin-inline: auto; 
-  padding: 24px; 
+.container {
+  max-width: 1100px;
+  margin-inline: auto;
+  padding: 24px;
 }
 
 /* ====== topo / navegação ====== */
-header{
-  position: sticky; 
-  top:0;
+header {
+  position: sticky;
+  top: 0;
   backdrop-filter: saturate(140%) blur(8px);
-  background: rgba(15,23,42,.45);
-  border-bottom: 1px solid rgba(148,163,184,.15);
+  background: rgba(15, 23, 42, .45);
+  border-bottom: 1px solid rgba(148, 163, 184, .15);
   z-index: 10;
 }
 
-.navPrincipal{
-  display:flex;
-  align-items:center; 
-  justify-content:space-between; 
-  gap:16px;
+.navPrincipal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.marcaSistema{
-  display:flex; 
-  align-items:center; 
-  gap:10px;
+.marcaSistema {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.logoSistema{
-  width:36px; 
-  height:36px; 
-  border-radius:10px;
-  display:grid; 
-  place-items:center;
+.logoSistema {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
   background: linear-gradient(135deg, var(--corMarca), var(--corRealce));
   box-shadow: var(--sombra);
 }
 
-.marcaSistema h1{ 
-  font-size:18px; 
-  margin:0; 
+.marcaSistema h1 {
+  font-size: 18px;
+  margin: 0;
 }
 
-.acoesNav{ 
-  display:flex; 
-  gap:10px; 
+.acoesNav {
+  display: flex;
+  gap: 10px;
 }
 
 /* ====== botões ====== */
-.botao{
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid rgba(148,163,184,.25);
-  background:#0b1220;
-  color:var(--corTexto);
-  cursor:pointer;
+.botao {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, .25);
+  background: #0b1220;
+  color: var(--corTexto);
+  cursor: pointer;
 }
 
-.botao:hover{ 
-  filter: brightness(1.05); 
+.botao:hover {
+  filter: brightness(1.05);
 }
 
-.botaoPrimario{
+.botaoPrimario {
   border-color: transparent;
   background: linear-gradient(135deg, var(--corMarca), var(--corRealce));
-  color:#0b1220;
-  font-weight:700;
+  color: #0b1220;
+  font-weight: 700;
 }
 
 /* ====== seção destaque/hero ====== */
-main{ padding-block: 28px; }
-
-.secaoHero{
-  display:grid; 
-  grid-template-columns: 1.2fr .8fr;
-  align-items:center; 
-  gap:24px;
+main {
+  padding-block: 28px;
 }
 
-.cartaoHero{
-  background: linear-gradient(180deg, rgba(17,24,39,.8), rgba(17,24,39,.6));
-  border:1px solid rgba(148,163,184,.15);
+.secaoHero {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.cartaoHero {
+  background: linear-gradient(180deg, rgba(17, 24, 39, .8), rgba(17, 24, 39, .6));
+  border: 1px solid rgba(148, 163, 184, .15);
   border-radius: var(--raio);
   padding: 28px;
   box-shadow: var(--sombra);
 }
 
-.secaoHero h2{ 
-  font-size:32px; 
-  line-height:1.2; 
-  margin:0 0 10px; 
+.secaoHero h2 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 10px;
 }
 
-.selo{
-  display:inline-flex; 
-  align-items:center; 
-  gap:8px;
-  padding:6px 10px; 
-  border-radius:999px;
-  background: rgba(34,211,238,.12);
-  border:1px solid rgba(34,211,238,.25);
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, .12);
+  border: 1px solid rgba(34, 211, 238, .25);
   color: var(--corMarca);
-  font-size:12px; 
-  margin-bottom:12px;
+  font-size: 12px;
+  margin-bottom: 12px;
 }
 
-.textoMutado{ 
-  color: var(--corSuave); 
+.textoMutado {
+  color: var(--corSuave);
 }
 
 /* formulário rápido */
-.formRapido{
-  display:grid; 
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap:12px;
+.formRapido {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.entrada, select{
-  width:100%; 
-  padding:12px 12px;
-  border-radius:12px;
-  background:#0b1220;
-  border:1px solid rgba(148,163,184,.25);
-  color:var(--corTexto);
+.entrada,
+select {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 184, .25);
+  color: var(--corTexto);
 }
 
-.entrada:focus, select:focus{
-  outline:2px solid var(--corMarca); 
+.entrada:focus,
+select:focus {
+  outline: 2px solid var(--corMarca);
   border-color: transparent;
 }
 
-.campoInvalido{
-  outline:2px solid #ef4444 !important;   /* vermelho */
+.campoInvalido {
+  outline: 2px solid #ef4444 !important;
+  /* vermelho */
   border-color: transparent !important;
 }
 
 /* ====== cards das entidades ====== */
-.gradeEntidades{
-  display:grid; 
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap:16px; 
-  margin-top:18px;
+.gradeEntidades {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
 }
 
-.cartao{
-  background: linear-gradient(180deg, rgba(17,24,39,.8), rgba(17,24,39,.6));
-  border:1px solid rgba(148,163,184,.15);
+.cartao {
+  background: linear-gradient(180deg, rgba(17, 24, 39, .8), rgba(17, 24, 39, .6));
+  border: 1px solid rgba(148, 163, 184, .15);
   border-radius: var(--raio);
-  padding:20px; 
+  padding: 20px;
   box-shadow: var(--sombra);
 }
 
-.cartao h3{ 
-  margin:0 0 8px; 
-  font-size:18px; 
+.cartao h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
 }
 
 /* ====== rodapé ====== */
-footer{
-  margin-top:28px; 
-  padding:16px 0;
-  border-top:1px dashed rgba(148,163,184,.25);
-  color:var(--corSuave); 
-  font-size:14px;
+footer {
+  margin-top: 28px;
+  padding: 16px 0;
+  border-top: 1px dashed rgba(148, 163, 184, .25);
+  color: var(--corSuave);
+  font-size: 14px;
 }
 
 /* ====== modal ====== */
-dialog{
-  border:none; 
-  border-radius:16px;
-  padding:0; 
-  width:min(92vw, 420px);
-  background:#0b1220; 
-  color:var(--corTexto);
+dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  width: min(92vw, 420px);
+  background: #0b1220;
+  color: var(--corTexto);
   box-shadow: var(--sombra);
 }
 
-.conteudoModal{ 
-  padding: 20px; 
+.conteudoModal {
+  padding: 20px;
 }
 
 /* ====== responsividade ====== */
-@media (max-width: 900px){
-  .secaoHero{ 
-    grid-template-columns: 1fr; 
+@media (max-width: 900px) {
+  .secaoHero {
+    grid-template-columns: 1fr;
   }
-  .gradeEntidades{ 
-    grid-template-columns: 1fr; 
+
+  .gradeEntidades {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -233,36 +247,47 @@ dialog{
 
 /* 1) Grades para os formulários das seções
    - Mantém seu visual; só organiza inputs em 1x2 e empilha no mobile */
-.grade { display: grid; gap: 12px; }
-.grade.duas { grid-template-columns: 1fr 1fr; }
-@media (max-width: 780px){
-  .grade.duas { grid-template-columns: 1fr; }
+.grade {
+  display: grid;
+  gap: 12px;
+}
+
+.grade.duas {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 780px) {
+  .grade.duas {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* 2) Lista simples do Histórico (sem quebrar sua paleta)
    - Usamos na <ul id="listaReservas">  */
-.lista{
+.lista {
   list-style: none;
   margin: 12px 0 0;
   padding: 0;
   display: grid;
   gap: 10px;
 }
-.lista li{
+
+.lista li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: #0b1220; /* combina com seu tema */
-  border: 1px solid rgba(148,163,184,.25);
+  background: #0b1220;
+  /* combina com seu tema */
+  border: 1px solid rgba(148, 163, 184, .25);
   color: var(--corTexto);
 }
 
 /* 3) Toast (feedback não bloqueante e acessível)
    - Reaproveita suas cores e sombras */
-.toast{
+.toast {
   position: fixed;
   right: 16px;
   bottom: 16px;
@@ -273,38 +298,57 @@ dialog{
   border-radius: 12px;
   background: #0b1220;
   color: var(--corTexto);
-  border: 1px solid rgba(148,163,184,.25);
-  border-left: 6px solid var(--corOk);       /* ok por padrão */
+  border: 1px solid rgba(148, 163, 184, .25);
+  border-left: 6px solid var(--corOk);
+  /* ok por padrão */
   box-shadow: var(--sombra);
   opacity: 0;
   transform: translateY(8px);
   transition: opacity .25s ease, transform .25s ease, border-color .2s ease;
-  pointer-events: none; /* não atrapalha cliques na página */
+  pointer-events: none;
+  /* não atrapalha cliques na página */
 }
-.toast.visivel{ opacity: 1; transform: translateY(0); }
+
+.toast.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* variações por tipo (usadas via JS): */
-.toast.warn{ border-left-color: #f59e0b; }   /* âmbar/aviso */
-.toast.err{  border-left-color: #ef4444; }   /* vermelho/erro */
+.toast.warn {
+  border-left-color: #f59e0b;
+}
+
+/* âmbar/aviso */
+.toast.err {
+  border-left-color: #ef4444;
+}
+
+/* vermelho/erro */
 
 /* 4) Link ativo no menu (acessibilidade/UX)
    - Só destaca se você usar <a href="#..."> no header e setar aria-current */
-.menu a[aria-current="true"]{
+.menu a[aria-current="true"] {
   border-bottom: 2px solid currentColor;
 }
 
 /* 5) Ajustes de inputs/botões dentro das novas seções (compatível com seu tema) */
-#secLogin input, #secPesquisa input, #secPesquisa select, #secSolicitar input{
+#secLogin input,
+#secPesquisa input,
+#secPesquisa select,
+#secSolicitar input {
   width: 100%;
   padding: 12px 12px;
   border-radius: 12px;
   background: #0b1220;
-  border: 1px solid rgba(148,163,184,.25);
+  border: 1px solid rgba(148, 163, 184, .25);
   color: var(--corTexto);
 }
+
 #secLogin input:focus,
 #secPesquisa input:focus,
 #secPesquisa select:focus,
-#secSolicitar input:focus{
+#secSolicitar input:focus {
   outline: 2px solid var(--corMarca);
   border-color: transparent;
 }
@@ -314,20 +358,21 @@ dialog{
 #secLogin.cartao,
 #secPesquisa.cartao,
 #secSolicitar.cartao,
-#secHistorico.cartao{
+#secHistorico.cartao {
   margin-top: 18px;
 }
 
 /* 7) Botão primário já existe; aqui só garantimos consistência nas seções novas */
 #secLogin .botaoPrimario,
 #secPesquisa .botaoPrimario,
-#secSolicitar .botaoPrimario{
+#secSolicitar .botaoPrimario {
   display: inline-block;
   text-align: center;
 }
 
-/* sprint 3: badges de refinamento no histórico */
-
+/* ==================================================
+   SPRINT 3: BADGES DE REFINAMENTO NO HISTÓRICO
+ ====================================================*/
 .badge {
   display: inline-block;
   align-items: center;
@@ -337,22 +382,24 @@ dialog{
   font-size: .9rem;
   border: 1px solid rgba(148, 163, 184, .25);
   background: #0b1220;
-  color: var(--corTexto);                                                                                                                        
+  color: var(--corTexto);
 }
 
-.badge.ok {
-  border-color: rgba(34, 197, 94, .5);
+.badge.ok{
+  border-color: rgba(34,197,94,.5);
+}
+.badge.warn{
+  border-color: rgba(245,158,11,.5);
+}
+.badge.err{
+  border-color: rgba(239,68,68,.5);
 }
 
-.border.warn {
-  border-color: rgba(245, 158, 11, .5);
+.lista li{
+  cursor: pointer;
 }
 
-.badge.err {
-  border-color: rgba(239, 68, 68, .5);
-}
-
-.lista li[aria-disable="true"] {
-   cursor: default;
-   opacity: .7;
+.lista li[aria-disable="true"]{
+  cursor: default;
+  opacity: .7;
 }
