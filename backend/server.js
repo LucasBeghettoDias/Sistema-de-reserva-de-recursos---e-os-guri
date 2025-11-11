@@ -24,8 +24,8 @@ app.use(express.json());
 
 //6. definimos as rotas da API
 
-app.use('api/recursos', recursosRoute);
-app.use('api/reservas', reservasRoute);
+app.use('/api/recursos', recursosRoute);
+app.use('/api/reservas', reservasRoute);
 
 app.get('/', (req, res)=>{
     res.send('API do sistema de reservas - OK');
@@ -43,4 +43,5 @@ sequelize.sync({
 
 }).catch(err =>{
     console.error('Erro ao conectar ou sincronizar o banco de dados', err);
+
 });
