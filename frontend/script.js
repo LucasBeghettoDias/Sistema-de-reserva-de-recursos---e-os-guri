@@ -3,6 +3,9 @@
    Mantém o Sprint 2 e adiciona persistência + conflitos
    ========================= */
 
+   //script.js - Sprint 4 (REFATORAÇÃO DA API)
+   //remove localstorage (repo) e conecta backend ao node.js
+
 /* 0) TOAST (igual Sprint 2) */
 const $toast = document.getElementById('toast');
 let __toastTimer = null;
@@ -72,7 +75,8 @@ function atualizarMenuAtivo() {
   menuLinks.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === hash ? 'true' : 'false'));
 }
 window.addEventListener('hashchange', atualizarMenuAtivo);
-document.addEventListener('DOMContentLoaded', atualizarMenuAtivo);
+//sprint 4: a chamada inicial foi movida para o novo DOMContentLoaded
+//document.addEventListener('DOMContentLoaded', atualizarMenuAtivo);
 
 /* 4) SELETORES das seções */
 const formLogin     = document.getElementById('formLogin');
@@ -85,23 +89,33 @@ const listaReservas = document.getElementById('listaReservas');
    ========================= */
 
 /** SPRINT 3: adiciona 1h ao horário “HH:MM” para fim padrão */
-function adicionar1Hora(hhmm) {
+//sprint 4: mantido pois o backend aguarda e espera a HoraFim
+
+function adicionar1Hora(hhmm){
+
+}
+
+/*function adicionar1Hora(hhmm) {
   const [h, m] = (hhmm || '00:00').split(':').map(Number);
   const d = new Date(); d.setHours(h, m, 0, 0);
   d.setMinutes(d.getMinutes() + 60);
   return d.toTimeString().slice(0,5);
-}
+}/*
 
 /** SPRINT 3: detecção de conflito (RN2)
  *  Não há conflito apenas quando um termina antes do outro começar. */
-function haConflito({ recursoId, data, horaInicio, horaFim }) {
+//sprint 4 : remove haConflito
+
+/*function haConflito({ recursoId, data, horaInicio, horaFim }) {
   const existentes = repo.get(DB_KEYS.reservas)
     .filter(r => r.recursoId === recursoId && r.data === data && r.status !== 'cancelada');
   return existentes.some(r => !(r.horaFim <= horaInicio || r.horaInicio >= horaFim));
-}
+}/*
 
 /** SPRINT 3: render a partir do “banco” (localStorage) */
-function renderItemReservaPersistida(r, recursosMap = null) {
+//sprint 4: remover renderItemReservaPersistida
+
+/*function renderItemReservaPersistida(r, recursosMap = null) {
   if (!listaReservas) return;
   const recursos = recursosMap || Object.fromEntries(repo.get(DB_KEYS.recursos).map(rr => [rr.id, rr.nome]));
   const quando = `${r.data.split('-').reverse().join('/')} • ${r.horaInicio}–${r.horaFim}`;
@@ -126,6 +140,37 @@ function renderItemReservaPersistida(r, recursosMap = null) {
   });
 
   listaReservas.appendChild(li);
+}*/
+
+//sprint 4: nova função de renderização
+function renderItemReservaAPI(reserva){
+  if(!listaReservas) return;
+
+  //o backend já fez o join via include (reservaController)
+  const nomeRecurso = reserva.recurso ?.nome || `recurso #${reserva.recursoId}`
+
+  //formatar as datas do que vem do banco usando timezone UTC
+  const dataFormatada = new Date(reserva.startAt).toLocaleDateString('pt-BR',{timeZone: 'UTC'});
+  const horaInicio = new Date(reserva.startAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit', timeZone:'UTC'});
+  const horaFim = new Date(reserva.startAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit', timeZone:'UTC'});
+  const quando = `${dataFormatada} - ${horaInicio} - ${horaFim}`;
+
+  const li = docuemnt.createElement('li');
+
+  //o backend define o status
+
+  const simbolo = reserva.status === 'aprovada' ? 'caixa verificado' : (reserva.status === 'rejeitada' || reserva.status === 'cancelada')? 'X cancela':'ampulheta';
+  const statusFormatado = reserva.status.charAt(0).ToUpperCase() + reserva.status.slice(1);
+
+  li.innerHTML = `
+  <span><strong>${nomeRecurso}</strong> - ${quando}</span>
+  <span>${simbolo} ${statusFormatado}</span>`;
+  
+  if(reserva.status === 'rejeitada' || reserva.status === 'cancelada'){
+    li.setAttribute('aria-disabled', 'true');
+  }
+
+  listaReservas.appendChild(li)
 }
 
 /* =========================
@@ -178,10 +223,11 @@ formPesquisa?.addEventListener('submit', (e) => {
   const horaFim    = adicionar1Hora(horaInicio);
 
   // 🚧 NOVO: checa conflito na etapa de pesquisa
-  if (haConflito({ recursoId, data, horaInicio, horaFim })) {
+  //sprint 4: remove checagem
+  /*if (haConflito({ recursoId, data, horaInicio, horaFim })) {
     mostrarToast('Indisponível: já existe reserva nesse intervalo.', 'err');
     return; // não avança
-  }
+  }*/
 
   // mantém seu fluxo normal quando estiver disponível
   ultimoFiltroPesquisa = { recurso: recursoId, data, hora };
@@ -194,7 +240,8 @@ formPesquisa?.addEventListener('submit', (e) => {
 
 
 // (c) SOLICITAR (Sprint 3: grava no storage + valida conflito)
-formSolicitar?.addEventListener('submit', (e) => {
+//sprint 4: grava na API, validação no backend
+formSolicitar?.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!usuarioAtual) { mostrarToast('Faça login antes de solicitar.', 'warn'); location.hash = '#secLogin'; atualizarMenuAtivo(); return; }
   if (!ultimoFiltroPesquisa) { mostrarToast('Pesquise a disponibilidade antes de solicitar.', 'warn'); location.hash = '#secPesquisa'; atualizarMenuAtivo(); return; }
@@ -208,13 +255,45 @@ formSolicitar?.addEventListener('submit', (e) => {
   const horaInicio = ultimoFiltroPesquisa.hora;
   const horaFim = adicionar1Hora(horaInicio);   // fim padrão (+1h)
 
-  if (haConflito({ recursoId, data, horaInicio, horaFim })) {
+  //sprint 4: remove verificação de conflito local
+  /*if (haConflito({ recursoId, data, horaInicio, horaFim })) {
     mostrarToast('Conflito: já existe reserva neste intervalo para este recurso.', 'err');
     return;
+  }*/
+
+  //const status = usuarioAtual.professor ? 'aprovada' : 'pendente';
+
+  //sprint 4: envio para a API
+  //monta o objeto para a API
+
+  const dadosParaAPI = {
+    recursoId,
+    usuarioId: usuarioAtual.login,
+    data,
+    horaInicio,
+    horaFim,
+    justificativa
+  };
+
+  try{
+    //chamada APIservice (faz o fetch Post)
+    const novaReserva = await api.createReserva(dadosParaAPI);
+
+    //sucesso = backend status 201
+    mostrarToast('reserva enviada para análise');
+    formSolicitar.reset();
+    location.hash = '#secHistorico';
+    atualizarMenuAtivo();
+
+    //recarrega o histótico da API - substituir renderItemReservaPersistida
+    await carregarHistoricoUI();
+  } catch(error){
+    mostrarToast(error.emessage, 'err');
   }
 
-  const status = usuarioAtual.professor ? 'aprovada' : 'pendente';
-  const nova = {
+//sprint 4; removido nova e o repo push
+  
+  /*const nova = {
     id: Date.now(),                 // id simples para demo
     recursoId,
     usuarioId: usuarioAtual.login,  // (simulado) login como id
@@ -228,15 +307,17 @@ formSolicitar?.addEventListener('submit', (e) => {
   mostrarToast(status === 'aprovada' ? 'Reserva aprovada.' : 'Reserva enviada para análise.');
   formSolicitar.reset();
   location.hash = '#secHistorico';
-  atualizarMenuAtivo();
+  atualizarMenuAtivo();*/
 });
 
 /* 5) ARRANQUE: já feito em storage.js (seed/popular/carregar)
    Aqui mantemos apenas o destaque do menu na carga */
 //document.addEventListener('DOMContentLoaded', atualizarMenuAtivo);
 
+//sprint 4: removido este carregamento
+
 //CORREÇÃO SPRINT3
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
   // 1️⃣ Garante que o seed e carregamentos básicos já ocorreram no storage.js
   if (typeof seedSeNecessario === 'function') seedSeNecessario();
 
@@ -245,5 +326,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3️⃣ Atualiza menu (comportamento original)
   atualizarMenuAtivo();
-});
+});*/
 

@@ -1,33 +1,37 @@
-// importa os models e operadores do sequelize
-const { Reserva, Recurso } = require('../models');
-const { Op } = require('sequelize');
+//Importa os Models e Operadores do Sequelize
+const {Reserva, Recurso} = require('../models');
+const {Op} = require('sequelize');
+//const { listarTodos } = require('./recursoController');
 
-// Controller para manipular operações relacionadas a reservas
-const reservaController = {
-    async listarTodos(req, res) {
-        try {
+//controller para manipular operações relacionadas a
+//Reservas
+
+const reservaController={
+    async listarTodas(req,res){
+        //1.prepara a consulta ao banco
+        try{
             const queryOptions = {
-                include: [{
+                include:[{
                     model: Recurso,
                     as: 'recurso',
-                    attributes: ['nome'] // estava 'attribute' no singular, o correto é 'attributes'
+                    attributes: ['nome']
                 }],
-                order: [['startAt', 'DESC']]
+                order: [['startAt','DESC']]
             };
-
-            if (req.query.usuarioId) {
+            
+            if(req.query.usuarioId){
                 queryOptions.where = {
                     usuarioId: req.query.usuarioId
                 };
             }
 
-            // executa a busca no banco
+            //3.executa a busca no banco
             const reservas = await Reserva.findAll(queryOptions);
 
-            // retorna as reservas
+            //4.retorna as reservas
             res.status(200).json(reservas);
 
-        } catch (error) {
+        } catch(error){
             console.error(error);
             res.status(500).json({
                 message: 'Erro ao buscar reservas',
@@ -36,40 +40,39 @@ const reservaController = {
         }
     },
 
-    async criar(req, res) {
-        try {
-            // 1. Pega dados do frontend
-            const { recursoId, usuarioId, data, horaInicio, horaFim, justificativa } = req.body;
+    async criar(req,res){
+        try{
+            //1. Pega dados do frontend (script.js)
+            const {recursoId, usuarioId,data,horaInicio,horaFim,justificativa}=req.body;
 
-            // 2. Validação básica
-            if (!recursoId || !usuarioId || !data || !horaInicio || !horaFim) {
+            //2.validação básica
+            if(!recursoId || !usuarioId || !data || !horaInicio || !horaFim){
                 return res.status(400).json({
-                    message: 'Campos obrigatórios estão faltando'
+                    message:'Campos obrigatórios estão faltando'
                 });
             }
-
-            // 3. Conversão de data/hora frontend -> backend
+            //3.Conversão de data/hora frontend->backend
             const startAt = new Date(`${data}T${horaInicio}`);
             const endAt = new Date(`${data}T${horaFim}`);
 
-            // 4. Verificação de conflito
+            //4. Verificação de conflito
             const conflito = await Reserva.findOne({
                 where: {
                     recursoId: recursoId,
-                    status: { [Op.ne]: 'rejeitada' },
-                    startAt: { [Op.lt]: endAt },
-                    endAt: { [Op.gt]: startAt },
+                    status:{[Op.ne]:'rejeitada'}, //ignora as reservas rejeitadas
+                    startAt: {[Op.lt]:endAt}, //inicio da reserva existente<fim da nova
+                    endAt:{[Op.gt]:startAt} //Fim da reserva existente>Inicio da nova
                 }
             });
 
-            // 5. Se encontra conflito retorna erro (409)
-            if (conflito) {
+            //5.Se encontra conflito, retorna erro (409)
+            if (conflito){
                 return res.status(409).json({
-                    message: 'Conflito de horário: já existe reserva nesse período.'
+                    message: 'Conflito de horário. Já existe reserva'
                 });
             }
 
-            // 6. Se não há conflito, cria a reserva no banco
+            //6.Se não há conflito cria a reserva no banco
             const novaReserva = await Reserva.create({
                 recursoId,
                 usuarioId,
@@ -79,17 +82,17 @@ const reservaController = {
                 status: 'pendente'
             });
 
-            // 7. Retorna reserva criada
+            //7.retorna reserva criada
             res.status(201).json(novaReserva);
 
-        } catch (error) {
+        } catch(error){
             console.error(error);
-            if(error.name === 'sequelizeValidationError'){
+            if(error.name ==='SequelizeValidationError'){
                 return res.status(400).json({
                     message: error.message,
-                    details: error.errors
+                    details:error.errors
                 })
-            };
+            }
             res.status(500).json({
                 message: 'Erro ao criar nova reserva',
                 error: error.message
@@ -99,4 +102,3 @@ const reservaController = {
 };
 
 module.exports = reservaController;
-

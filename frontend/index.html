@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Reserva de Recursos</title>
     <link rel="stylesheet" href="style.css">
     <!-- SPRINT 3 - LINK PARA NOVO ARQUIVO storage.js -->
-     <script defer src="storage.js"></script>
+    <script defer src="storage.js"></script>
+    <!-- SPRINT 4 - CARREGAMENTO DA API -->
+    <script defer src="apiService.js"></script>
     <script defer src="script.js"></script>
 </head>
+
 <body>
     <header>
         <div class="container navPrincipal">
@@ -50,8 +54,8 @@
             <div class="cartaoHero">
                 <h3>Status do Sistema</h3>
                 <p class="textoMutado">
-                    Ambiente <strong>DEMO</strong>. 
-                    Integração real será feita após 
+                    Ambiente <strong>DEMO</strong>.
+                    Integração real será feita após
                     modelagem e API.
                 </p>
                 <ul class="textoMutado">
@@ -65,7 +69,7 @@
             <article class="cartao">
                 <h3>Usuário</h3>
                 <p class="textoMutado">
-                    Cadastro, login e área de usuário com 
+                    Cadastro, login e área de usuário com
                     histórico de reservas.
                 </p>
             </article>
@@ -73,13 +77,13 @@
                 <h3>Recurso</h3>
                 <p class="textoMutado">
                     Catálogo administrado (salas, equipamentos).
-                     Regras de disponibilidade.
+                    Regras de disponibilidade.
                 </p>
             </article>
             <article class="cartao">
                 <h3>Reserva</h3>
                 <p class="textoMutado">
-                    Criação, edição e cancelamento com 
+                    Criação, edição e cancelamento com
                     validação de conflitos.
                 </p>
             </article>
@@ -145,29 +149,29 @@
         </section>
 
         <!-- SEÇÃO DE HISTÓRICO -->
-         <section id="secHistorico" class="cartao" aria-labelledby="titHistorico">
+        <section id="secHistorico" class="cartao" aria-labelledby="titHistorico">
             <h2 id="titHistorico">Minhas reservas</h2>
             <!-- SPRINT 3 - lista será carregada a partir do storage.js -->
             <ul id="listaReservas" class="lista" aria-live="polite">
 
             </ul>
-         </section> 
+        </section>
 
         <footer>
             <div class="container"><small class="textoMutado">
-                Sprint 2 - Fluxo funcional (Login - Pesquisa - Solicitação - Histórico) 
-                Próximo: modelagem e persistência
-            </small>
-        </div>
+                    Sprint 2 - Fluxo funcional (Login - Pesquisa - Solicitação - Histórico)
+                    Próximo: modelagem e persistência
+                </small>
+            </div>
         </footer>
     </main>
 
     <!-- criação do modal em tela -->
-     <dialog id="modalLogin">
+    <dialog id="modalLogin">
         <header>
             <h3>Entrar</h3>
             <p class="textoMutado">
-                Protótipo visual. Implementação de 
+                Protótipo visual. Implementação de
                 autenticação nos próximos sprints.
             </p>
         </header>
@@ -179,11 +183,12 @@
                 <button class="botao botaoPrimario" value="entrar">Entrar</button>
             </div>
         </form>
-     </dialog>
+    </dialog>
 
-     <!-- <script src="script.js"></script> -->
+    <!-- <script src="script.js"></script> -->
 
-     <!-- REGIÃO DE TOAST ACESSÍVEL - não bloqueante -->
+    <!-- REGIÃO DE TOAST ACESSÍVEL - não bloqueante -->
     <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 </body>
+
 </html>

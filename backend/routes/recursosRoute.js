@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const recursoController = require('../controllerss/recursoController');
+const recursoController = require('../controllers/recursoController');
 
-router.get('/', recursoController.listarTodos);
-router.post('/', recursoController.criar);
+router.get('/',recursoController.listarTodos);
+router.post('/',recursoController.criar);
 
 module.exports = router;
+

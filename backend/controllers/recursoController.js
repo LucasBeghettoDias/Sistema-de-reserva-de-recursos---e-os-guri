@@ -1,58 +1,57 @@
-const { Router } = require('express');
-const { Recurso } = require('../models');
+//importar o model recurso
+const {Recurso} = require('../models');
 
+//controller para manipular operações relacionadas a Recursos
 const recursoController = {
-    // @route
-    // @Desc  
-    // @access   
+    // @route //GET/api/recursos
+    // @desc //listar todos os recursos
+    // @access //Public
 
-    async listarTodos(req, res) {
-        try {
+    async listarTodos(req,res){
+        try{
             const recursos = await Recurso.findAll({
-                order: [['nome', 'ASC']]
+                order: [['nome','ASC']]
             });
-            res.status(200).json(recursos);
+        res.status(200).json(recursos);
         }
-        catch (error) {
+        catch(error){
             console.error(error);
             res.status(500).json({
-                message: 'Erro ao buscar recursos',
+                message: "Erro ao buscar recursos",
                 error: error.message
-            })
-
+            });
         }
     },
 
-    async criar(req, res) {
-        try {
-            //pega os dados enviados no corpo de requisicao
-            const { nome, tipo, status, capacity, location, meta } = req.body
-            //validacao basica poggers
-            if (!nome || !tipo) {
+    async criar(req,res){
+        try{
+            //1. pega os dados enviados no corpo de requisição
+            const {nome, tipo, status, capacity, location, meta}=req.body;
+            //2.validação básica
+            if(!nome||!tipo){
                 return res.status(400).json({
-                    message: 'Os Campos "nome" e "tipo" são obrigatórios'
+                    message: 'Os campos "nome" e "tipo" são obrigatórios'
                 });
             }
 
-            // 3.Criar um novo recurso no banco de dados
-            // Equivale: a INSERT INTO recursos (...) VALUES (...)
+            //3.Cria um novo recurso no banco de dados
+            //Equivale: a INSERT INTO recursos (...) VALUES (...)
             const novoRecurso = await Recurso.create({
                 nome,
                 tipo,
-                stat,
+                status,
                 capacity,
                 location,
                 meta
             });
 
-            //4. Retorna o recurso recem-criado com status 201
+            //4.Retorna o recurso recém-criado com status 201
             res.status(201).json(novoRecurso);
-
-        }catch (error){
+        } catch(error){
             //5. Em caso de erro
             console.error(error);
             res.status(500).json({
-                message: 'Erro ao crir novo recurso',
+                message: 'Erro ao criar novo recurso',
                 error: error.message
             });
         }
