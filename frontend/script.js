@@ -328,3 +328,72 @@ formSolicitar?.addEventListener('submit', async (e) => {
   atualizarMenuAtivo();
 });*/
 
+async function popularRecursosSelect() {
+  const sel = document.getElementById('campoRecurso'); // (do formPesquisa)
+  const selLegado = document.querySelector('.formRapido select'); // (do formHero)
+  if (!sel || !selLegado) return;
+
+  try {
+    const recursos = await api.getRecursos(); // Chama a API
+
+    const optionsHtml = '<option value="">Selecione...</option>' + recursos
+      .map(r => `<option value="${r.id}">${r.nome}</option>`)
+      .join('');
+    
+    sel.innerHTML = optionsHtml;
+    selLegado.innerHTML = optionsHtml; // Popula ambos os selects
+
+  } catch (error) {
+    mostrarToast('Falha ao carregar recursos da API.', 'err');
+    console.error(error);
+  }
+}
+
+/**
+ * SPRINT 4: Nova função para carregar o histórico de reservas
+ * (Assume que 'api.getReservas' existe em apiService.js)
+ */
+async function carregarHistoricoUI() {
+  if (!listaReservas) return;
+  
+  // SPRINT 4: Limpa a lista antes de carregar
+  listaReservas.innerHTML = '<li>Carregando histórico...</li>';
+
+  try {
+    // TODO: Opcionalmente, enviar o 'usuarioAtual.login' para filtrar
+    // const reservas = await api.getReservas(usuarioAtual?.login);
+    const reservas = await api.getReservas(); // Chama a API
+
+    listaReservas.innerHTML = ''; // Limpa o "Carregando..."
+
+    if (reservas.length === 0) {
+      listaReservas.innerHTML = '<li>Nenhuma reserva encontrada.</li>';
+      return;
+    }
+
+    reservas.forEach(reserva => {
+      renderItemReservaAPI(reserva); // Usa a nova função de render (Sprint 4)
+    });
+
+  } catch (error) {
+    listaReservas.innerHTML = '<li>Erro ao carregar histórico.</li>';
+    mostrarToast('Falha ao carregar histórico da API.', 'err');
+    console.error(error);
+  }
+}
+
+// NOVO ARRANQUE (SPRINT 4)
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1. Atualiza o menu (comportamento original)
+  atualizarMenuAtivo();
+
+  // 2. Carrega os dados da API
+  // (Isso substitui 'seedSeNecessario', 'normalizarReservasAntigas',
+  // 'popularRecursos()' e 'carregarHistorico()' que vinham do storage.js)
+  
+  // Usamos Promise.all para carregar recursos e reservas em paralelo
+  await Promise.all([
+      popularRecursosSelect(),
+      carregarHistoricoUI()
+  ]);
+});
